@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -13,41 +14,14 @@ jobs:
       - name: Connect and run on EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: YOUR_EC2_IP
+          host: 3.110.xxx.xxx   # 👈 REPLACE with your actual EC2 Public IP
           username: ubuntu
-          key: |
-            -----BEGIN RSA PRIVATE KEY-----
-            MIIEowIBAAKCAQEAtQZIiHy5Jh53XufDpHdO7R6lO0QKTZqc/P7N/tmwoi63N5Vq
-            xLPviMUxkZf4YTkiGjESSAkg/u7EITlqUzrH2klHmc+u1hXAbK9L1aG3uRkycciL
-            Wwes272IJRKAhdnmj4m8xMiJnG+HLgm2S9Q4UnObYDOGiZLjc0NCx1JjaHQQ/ACc
-            2cvkEHBd735AnUCJoIqIEyJoqpEsKbcRiB3MApW/WN+qHbGhQl8Ot5JZwZnzE86p
-            rEk3NZzzl89kvMp/g7Utz8jWbbIGqYOQs830/Wjkt+TG457EDb1cZWd4pnfl+Ykb
-            fAlVWzGGPK1CUvEXWkp+JcxBJ8zH4xw+Ss1eHQIDAQABAoIBAECtIQcawK/c3Ltc
-            xOqi8eEIPPKiyaeWYRaHFyRBtLkNRcqnKMFkpGVSRvaEvGpIFmYTODvifxZ2Sj6w
-            m8tmyfa0jc9ng0jb9qceLlMCd3i7huleRGPepyTPX7AXHzIzewu3o2kPWRM6Sarq
-            L2aCSSk0QsQpRJ0sjPUmh9pdFkU/8EbNNets0AiEK+alEW+wrDzhtcpDtVSzoJ+v
-            +kvBbD+q4TWeUdqI8SRpTOAcFRZQljgvBiog58GMoWs5lfO/3C5b9L2CkFIhka8y
-            61E2NlT8HnEDzdwthDrhImS30G2GQncohj0VS/KFqN3pC2WZm6vvxPE4v5YFgQ+S
-            DoByeKECgYEA68USGgABnYGi4vLXgAKSoZHtS0RsJ52BLjqDdmeKA1HZPfb4oACr
-            r/J8BlkIoFTFy+Vc9IIv6wU44w2GE+8tNIBq0oZPTshQL9wM0L7BXRofrs50q+pv
-            nLTHRd56Ra9iUv0kYptgyEnyEoK0xKfs4m/eiVH0D9asZTHb2lBqz9kCgYEAxI6t
-            CRTHCM3A6eUaB96Etgrw9NLk1XQK2Yudos4k8YkikVx8G6bZUSX22fQapvRkf2zs
-            rhmWx141IP8FDAp1o6J5zjCAA9xrwelva0GvU9ZyDV7H5mgsbUhZjg+ZiXQm8nMg
-            sRNZgQKUcTShez6oZeEfqoPRL8RUCGqcb6CXWeUCgYEAo1ZtOvwEInV8PlRU/cdK
-            hIrPZZSqhSt2ImvBRddnYvNiWK5wApFUYFnSmKc39bOlMKPfKTnELsL4bTyiRc8u
-            dy/8UYthCEh4XR/K9RciaPi/OGCprayF1H/dikceWIavzKS5f2L7wuaPwUkyKQfZ
-            cepktqfDOPHVj2niUTXjOckCgYAOsiw11ZvcCKY31q1PkU+S3NaPN4VsgDSfd1Td
-            61PPy1UOUT/mQV9WNeRy/1FO0k8BR/+aNMeVOHH4eZjDAbUx+t/ojq/DmiNkaDOw
-            bUTSm+IDJecETx2jPhmUCY6NPGX9EqaLFstGXg8DN9ArCtBEbcSUVy64x5EQ4Ae6
-            QOOQEQKBgAYnsAE1yPT0Cb+is9W50CTZv4JmojgbAExhiz05tjK00pgYqkrHKdKe
-            /81ukE9F34dPHY/bBrwGTw6woRbn8D5mYnx55qFeMwii/2eYMCtkOJW8HP4E5XLt
-            IVhSJ8mVLIaoHFAsqKJXqhWZDweUpj8Zz15m9LR4JZx57NGXcNM4
-            -----END RSA PRIVATE KEY-----
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             echo "Connected to EC2"
 
-            # Create app file
+            # Create file
             echo 'print("Hello from EC2 🚀")' > app.py
 
-            # Run app
+            # Run app in background
             nohup python3 app.py > output.log 2>&1 &
