@@ -14,7 +14,7 @@ jobs:
       - name: Connect and run on EC2
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: 3.110.xxx.xxx   # 👈 REPLACE with your actual EC2 Public IP
+          host: 13.233.9.48
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
