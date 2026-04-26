@@ -1,4 +1,1 @@
-print("Hello from Python App 🚀")
-
-while True:
-    pass
+print("Hello from EC2 🚀")
